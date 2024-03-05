@@ -4,14 +4,13 @@ using namespace std;
 class Grass
 {
 public:
-	void set_age(int view) { age = 0; type = view; }
+	void set_parametrs(int view);
 	bool check_life() { return age == 2; }
 	int get_age() { return age; }
-    int get_kind(){return type;};
-	void update_life() { age++; };
-	void print() const;
+    int get_kind(){return type_grass;}
+	void update_life() { age++; }
 private:
 	int age;
-    int type;
+    int type_grass;
 };
 

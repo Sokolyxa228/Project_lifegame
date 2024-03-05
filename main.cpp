@@ -10,13 +10,14 @@ int main() {
 	const int COL = 60;
 	const int SIZE = 20;
 	Obj field[ROW][COL];
-	const int GRASS_COUNT = 30;
+	const int GRASS_COUNT = 5;
 
 	for (int i = 0; i < GRASS_COUNT;) {
 		int x = rand() % ROW;
 		int y = rand() % COL;
+		int mode = rand() % 2;
 		if (field[x][y].get_type() == "0") {
-			field[x][y] = Obj("grass", rand()%2 - 1);
+			field[x][y] = Obj("grass", mode);
 			i++;
 		}
 
@@ -35,36 +36,41 @@ int main() {
 		}
 		k += 1;
 		window.clear();
-		for (int i = 0; i < COL; ++i) {
-			for (int j = 0; j < ROW; ++j) {
-				if (field[j][i].get_type() == "grass") {
+		bool flag = false;
+		for (int j = 0; j < COL; ++j) {
+			for (int i = 0; i < ROW; ++i) {
+				if (field[i][j].get_type() == "grass") {
 					sf::RectangleShape shape(sf::Vector2f(SIZE, SIZE));
 	
-					if (field[j][i].check_life()) {
-						field[j][i] = Obj();
+					if (field[i][j].check_life()) {
+						field[i][j] = Obj();
                         continue;
 					}
+					if (field[i][j].get_type() != "0") {
+						if (field[i][j].get_kind()) {
+							shape.setFillColor(sf::Color::Red);
+						}
+						else {
+							shape.setFillColor(sf::Color::Green);
+						}
+					}
 
-                    if (field[i][j].get_kind()) {
-                        cout << field[i][j].get_kind()<<"\n";
-                        shape.setFillColor(sf::Color::Red);
-                    }
-                    else  shape.setFillColor(sf::Color::Green);;
 
 					shape.setPosition(i*SIZE, j*SIZE);
 					window.draw(shape);
-					field[j][i].update_life();
+					
 
-					if (j + 1 < ROW && i-1 < COL) {
-						if (field[j + 1][i-1].get_type() == "0") {
-							field[j + 1][i-1] = Obj("grass", rand()%2 - 1);
+					if (i + 1 < ROW && j-1 < COL) {
+						if (field[i + 1][j-1].get_type() == "0" && field[i][j].get_type()=="grass") {
+							field[i + 1][j-1] = Obj("grass", field[i][j].get_kind());
 						}
 					}
+					field[i][j].update_life();
 				}
 			}
 		}
 		
-		sf::sleep(sf::seconds(2));
+		sf::sleep(sf::seconds(1));
 		window.display();
 	}
 

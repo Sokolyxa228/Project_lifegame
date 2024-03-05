@@ -4,7 +4,7 @@ Obj::Obj(string new_type, int view)
 {
 	type = new_type;
 	if (type == "grass") {
-		this->set_age(view);
+		set_parametrs(view);
 	}
 }
 
