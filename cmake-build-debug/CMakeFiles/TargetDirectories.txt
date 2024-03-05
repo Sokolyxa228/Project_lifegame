@@ -1,0 +1,3 @@
+/Users/egorbataev/Documents/Project/Project_lifegame/cmake-build-debug/CMakeFiles/Project_lifegame.dir
+/Users/egorbataev/Documents/Project/Project_lifegame/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/egorbataev/Documents/Project/Project_lifegame/cmake-build-debug/CMakeFiles/rebuild_cache.dir

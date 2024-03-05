@@ -1,0 +1,12 @@
+# ninja log v5
+344	376	1709619290008842133	Project_lifegame	a5c1646cc36bb887
+4	599	1709618772168683564	CMakeFiles/Project_lifegame.dir/Obj.cpp.o	cbb0f26de246cb84
+4	344	1709619289974708140	CMakeFiles/Project_lifegame.dir/main.cpp.o	dd1ee54bd4981635
+4	586	1709618772153846754	CMakeFiles/Project_lifegame.dir/Grass.cpp.o	bb21f77ee9f104a4
+0	48	1709619512604887729	build.ninja	ef9a7e14150c5b26
+4	596	1709619537448043672	CMakeFiles/Project_lifegame.dir/Grass.cpp.o	bb21f77ee9f104a4
+4	665	1709619537516410450	CMakeFiles/Project_lifegame.dir/main.cpp.o	dd1ee54bd4981635
+8	303	1709619563362676085	CMakeFiles/Project_lifegame.dir/Obj.cpp.o	cbb0f26de246cb84
+303	446	1709619563504820002	Project_lifegame	a5c1646cc36bb887
+5	628	1709619619121292015	CMakeFiles/Project_lifegame.dir/main.cpp.o	dd1ee54bd4981635
+628	659	1709619619155133717	Project_lifegame	a5c1646cc36bb887

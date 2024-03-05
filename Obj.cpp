@@ -1,10 +1,10 @@
 #include "Obj.h"
 
-Obj::Obj(string new_type)
+Obj::Obj(string new_type, int view)
 {
 	type = new_type;
 	if (type == "grass") {
-		this->set_age();
+		this->set_age(view);
 	}
 }
 
