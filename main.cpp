@@ -11,7 +11,7 @@ int main() {
     const int ROW = 40;
     const int COL = 60;
     const int SIZE = 20;
-    const int COUNT_ALL_GRASS = 80;
+    const int COUNT_ALL_GRASS = 100;
     Obj field[ROW][COL];
     const int GRASS_COUNT = 20;
     int now_cnt_grass = 0;
@@ -23,13 +23,13 @@ int main() {
         if (field[x][y].get_type() == "0") {
             field[x][y] = Obj("grass", mode);
             now_cnt_grass++;
+          //  cout << x << ' ' << y << endl;
             i++;
         }
 
     }
     sf::RenderWindow window(sf::VideoMode(COL*SIZE, ROW*SIZE), "Life game");
 
-    int k = 0;
     while (window.isOpen())
     {
 
@@ -39,49 +39,64 @@ int main() {
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-        k += 1;
-        cout<<"1"<<"\n";
+   
+        //cout<<"1"<<"\n";
         window.clear();
         bool flag = false;
-        for (int j = 0; j < COL; ++j) {
-            for (int i = 0; i < ROW; ++i) {
+        for (int i = 0; i < ROW; ++i) {
+            for (int j = 0; j < COL; ++j) {
+                
+                
                 if (field[i][j].get_type() == "grass") {
                     sf::RectangleShape shape(sf::Vector2f(SIZE, SIZE));
-
+                        
                     if (field[i][j].check_life()) {
                         field[i][j] = Obj();
                         now_cnt_grass--;
                         continue;
                     }
-                    if (field[i][j].get_type() != "0") {
-                        if (field[i][j].get_kind()) {
-                            shape.setFillColor(sf::Color::Red);
-                        }
-                        else {
-                            shape.setFillColor(sf::Color::Green);
-                        }
+
+                    if (field[i][j].get_kind()) {
+                        shape.setFillColor(sf::Color::Red);
+                    }
+                    else {
+                        shape.setFillColor(sf::Color::Green);
                     }
 
 
-                    shape.setPosition(i*SIZE, j*SIZE);
+                    shape.setPosition(j*SIZE, i*SIZE);
                     window.draw(shape);
+                  
+                    if (field[i][j].get_age() == 0) {
+                        field[i][j].update_life();
+                        continue;
+
+                    }
                     for (int k = 0; k < 4; k++)
                     {
                         if (now_cnt_grass == COUNT_ALL_GRASS) break;
-                        int new_x = j + dx[k];
-                        int new_y = i + dy[k];
+                        int new_x = i + dx[k];
+                        int new_y = j + dy[k];
                         if (new_x < 0 || new_y < 0 || new_x >= ROW || new_y >= COL)
                         {
                             continue;
                         }
-                        field[new_x][new_y] = Obj("grass", field[new_x][new_y].get_kind());
-                        now_cnt_grass++;
-                        field[new_x][new_y].update_life();
+                        
+                        if (field[new_x][new_y].get_type() != "grass") {
+                            field[new_x][new_y] = Obj("grass", field[i][j].get_kind());
+                            shape.setPosition(new_y * SIZE, new_x * SIZE);
+                            window.draw(shape);
+                            //cout << "NEW " << i << ' ' << j << ' ' << new_x << ' ' << new_y << endl;
+                            now_cnt_grass++;
+                        }
+                            
+                        
+                       // field[new_x][new_y].update_life();
 
                     }
                     field[i][j].update_life();
 
-
+                    
 
 //                    if (i + 1 < ROW && j-1 < COL) {
 //                        if (field[i + 1][j-1].get_type() == "0" && field[i][j].get_type()=="grass") {
@@ -93,8 +108,9 @@ int main() {
             }
         }
 
-        sf::sleep(sf::seconds(1));
+        
         window.display();
+        sf::sleep(sf::seconds(1));
     }
 
 
