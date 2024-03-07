@@ -8,7 +8,8 @@ add_executable(Project_lifegame
         Grass.h
         main.cpp
         Obj.cpp
-        Obj.h)
+        Obj.h
+        Sheep.h)
 set(SFML_INCLUDE_DIR "/usr/local/include")
 set(SFML_LIBRARY_DIR "/usr/local/lib")
 link_directories(${SFML_LIBRARY_DIR})

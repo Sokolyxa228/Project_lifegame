@@ -32,13 +32,13 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 20,
+				"line" : 21,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 15,
+				"line" : 16,
 				"parent" : 0
 			}
 		]
@@ -139,7 +139,8 @@
 			"sourceIndexes" : 
 			[
 				1,
-				4
+				4,
+				5
 			]
 		}
 	],
@@ -171,6 +172,11 @@
 		{
 			"backtrace" : 1,
 			"path" : "Obj.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Sheep.h",
 			"sourceGroupIndex" : 1
 		}
 	],

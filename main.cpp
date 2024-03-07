@@ -1,4 +1,5 @@
 ﻿#include "Grass.h"
+#include "Sheep.h"
 #include <SFML/Graphics.hpp>
 #include "Obj.h"
 #include <vector>
@@ -13,7 +14,8 @@ int main() {
     const int SIZE = 20;
     const int COUNT_ALL_GRASS = 100;
     Obj field[ROW][COL];
-    const int GRASS_COUNT = 20;
+    const int GRASS_COUNT = 30;
+    const int SHEEP_COUNT = 10;
     int now_cnt_grass = 0;
 
     for (int i = 0; i < GRASS_COUNT;) {
@@ -24,6 +26,18 @@ int main() {
             field[x][y] = Obj("grass", mode);
             now_cnt_grass++;
           //  cout << x << ' ' << y << endl;
+            i++;
+        }
+
+    }
+    for (int i = 0; i < SHEEP_COUNT;) {
+        int x = rand() % ROW;
+        int y = rand() % COL;
+        int mode = rand() % 2;
+        if (field[x][y].get_type() == "0") {
+            field[x][y] = Obj("sheep");
+            //now_cnt_grass++;
+            //  cout << x << ' ' << y << endl;
             i++;
         }
 
@@ -45,11 +59,13 @@ int main() {
         bool flag = false;
         for (int i = 0; i < ROW; ++i) {
             for (int j = 0; j < COL; ++j) {
-                
-                
+                sf::RectangleShape shape(sf::Vector2f(SIZE, SIZE));
+                if (field[i][j].get_type() == "sheep")
+                {
+                    shape.setFillColor(sf::Color::Yellow);
+                }
                 if (field[i][j].get_type() == "grass") {
-                    sf::RectangleShape shape(sf::Vector2f(SIZE, SIZE));
-                        
+
                     if (field[i][j].check_life()) {
                         field[i][j] = Obj();
                         now_cnt_grass--;

@@ -7,6 +7,11 @@ Obj::Obj(string new_type, int view)
 		set_parametrs(view);
 	}
 }
+Obj::Obj(string new_type)
+{
+    type = new_type;
+}
+
 
 void Obj::print_info()
 {
