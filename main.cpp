@@ -33,7 +33,6 @@ int main() {
     for (int i = 0; i < SHEEP_COUNT;) {
         int x = rand() % ROW;
         int y = rand() % COL;
-        int mode = rand() % 2;
         if (field[x][y].get_type() == "0") {
             field[x][y] = Obj("sheep");
             //now_cnt_grass++;
@@ -60,9 +59,35 @@ int main() {
         for (int i = 0; i < ROW; ++i) {
             for (int j = 0; j < COL; ++j) {
                 sf::RectangleShape shape(sf::Vector2f(SIZE, SIZE));
+
                 if (field[i][j].get_type() == "sheep")
                 {
-                    shape.setFillColor(sf::Color::Yellow);
+                    if (field[i][j].check_sheep_life()) {
+                        field[i][j] = Obj();
+                        continue;
+                    }
+//                    int moved = 0;
+//                    while (moved == 0)
+//                    {
+//                        int new_x = i + dx[rand()%4];
+//                        int new_y = j + dy[rand()%4];
+//                        if (new_x < 0 || new_y < 0 || new_x >= ROW || new_y >= COL)
+//                        {
+//                            continue;
+//                        }
+//
+//                        if (field[new_x][new_y].get_type() != "grass" && field[new_x][new_y].get_type() != "sheep" ) {
+//                            field[new_x][new_y] = Obj("sheep");
+//                            shape.setPosition(new_y * SIZE, new_x * SIZE);
+//                            window.draw(shape);
+//                            //cout << "NEW " << i << ' ' << j << ' ' << new_x << ' ' << new_y << endl;
+//                            moved = 1;
+//                        }
+//                    }
+                    shape.setFillColor(sf::Color::White);
+                    shape.setPosition(j*SIZE, i*SIZE);
+                    window.draw(shape);
+                    field[i][j].sheep_update_life();
                 }
                 if (field[i][j].get_type() == "grass") {
 
