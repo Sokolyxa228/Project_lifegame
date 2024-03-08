@@ -15,9 +15,9 @@ int main() {
     const int COUNT_ALL_GRASS = 200;
     Obj field[ROW][COL];
     const int GRASS_COUNT = 40;
-    const int SHEEP_COUNT = 10;
+    const int SHEEP_COUNT = 20; 
     int now_cnt_grass = 0;
-
+    int STEP = 1;//для проверки хода овцы
     for (int i = 0; i < GRASS_COUNT;) {
         int x = rand() % ROW;
         int y = rand() % COL;
@@ -34,7 +34,8 @@ int main() {
         int x = rand() % ROW;
         int y = rand() % COL;
         if (field[x][y].get_type() == "0") {
-            field[x][y] = Obj("sheep");
+            field[x][y] = Obj("sheep",0,-1);
+            field[x][y].set_sheep_flag(0);
             //now_cnt_grass++;
             //  cout << x << ' ' << y << endl;
             i++;
@@ -59,14 +60,20 @@ int main() {
         for (int i = 0; i < ROW; ++i) {
             for (int j = 0; j < COL; ++j) {
                 sf::RectangleShape shape(sf::Vector2f(SIZE, SIZE));
-
+                
                 if (field[i][j].get_type() == "sheep")
                 {
-                    field[i][j] = Obj();
                     if (field[i][j].check_sheep_life()) {
                         field[i][j] = Obj();
                         continue;
                     }
+                    if (field[i][j].get_sheep_flag()==STEP && field[i][j].get_sheep_age() != 0) {
+                        field[i][j].set_sheep_flag(0);
+                        
+                        continue;
+                    }
+                    bool flag = true;
+                    shape.setFillColor(sf::Color::White);
                     while (true)
                     {
                         int new_x = i + dx[rand()%4];
@@ -77,17 +84,27 @@ int main() {
                         }
 
                         if (field[new_x][new_y].get_type() != "grass" && field[new_x][new_y].get_type() != "sheep" ) {
-                            //field[i][j] = Obj();
-                            field[new_x][new_y] = Obj("sheep");
+                            field[new_x][new_y] = Obj("sheep",field[i][j].get_sheep_age(),-1);
+                            field[new_x][new_y].set_sheep_flag(STEP);
                             shape.setPosition(new_y * SIZE, new_x * SIZE);
+                            cout << new_y << ' ' << new_x << ' ' << j << ' ' << i << endl;
+                            window.draw(shape);
+                            flag = false;
 //                            window.draw(shape);
+                            field[new_x][new_y].sheep_update_life();
+                            field[i][j] = Obj();
                             break;
                         }
                     }
-                    shape.setFillColor(sf::Color::White);
-                    shape.setPosition(j*SIZE, i*SIZE);
-                    window.draw(shape);
-                    field[i][j].sheep_update_life();
+                    if (flag) {
+                        shape.setPosition(j * SIZE, i * SIZE);
+                        window.draw(shape);
+                        field[i][j].sheep_update_life();
+                        
+                    }
+                    
+
+                    
                 }
                 if (field[i][j].get_type() == "grass") {
 
@@ -148,10 +165,11 @@ int main() {
                 }
             }
         }
+        STEP++;
 
         
         window.display();
-        sf::sleep(sf::seconds(1));
+        sf::sleep(sf::seconds(2));
     }
 
 
