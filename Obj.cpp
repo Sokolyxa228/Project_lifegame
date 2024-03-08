@@ -16,7 +16,7 @@ Obj::Obj(string new_type, int view)
 	}
 }
 
-void Obj::print_info()
+void Obj::print_info() const
 {
 	cout << type;
 }
