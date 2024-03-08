@@ -12,9 +12,9 @@ int main() {
     const int ROW = 40;
     const int COL = 60;
     const int SIZE = 20;
-    const int COUNT_ALL_GRASS = 100;
+    const int COUNT_ALL_GRASS = 200;
     Obj field[ROW][COL];
-    const int GRASS_COUNT = 30;
+    const int GRASS_COUNT = 40;
     const int SHEEP_COUNT = 10;
     int now_cnt_grass = 0;
 
@@ -62,28 +62,28 @@ int main() {
 
                 if (field[i][j].get_type() == "sheep")
                 {
+                    field[i][j] = Obj();
                     if (field[i][j].check_sheep_life()) {
                         field[i][j] = Obj();
                         continue;
                     }
-//                    int moved = 0;
-//                    while (moved == 0)
-//                    {
-//                        int new_x = i + dx[rand()%4];
-//                        int new_y = j + dy[rand()%4];
-//                        if (new_x < 0 || new_y < 0 || new_x >= ROW || new_y >= COL)
-//                        {
-//                            continue;
-//                        }
-//
-//                        if (field[new_x][new_y].get_type() != "grass" && field[new_x][new_y].get_type() != "sheep" ) {
-//                            field[new_x][new_y] = Obj("sheep");
-//                            shape.setPosition(new_y * SIZE, new_x * SIZE);
+                    while (true)
+                    {
+                        int new_x = i + dx[rand()%4];
+                        int new_y = j + dy[rand()%4];
+                        if (new_x < 0 || new_y < 0 || new_x >= ROW || new_y >= COL)
+                        {
+                            continue;
+                        }
+
+                        if (field[new_x][new_y].get_type() != "grass" && field[new_x][new_y].get_type() != "sheep" ) {
+                            //field[i][j] = Obj();
+                            field[new_x][new_y] = Obj("sheep");
+                            shape.setPosition(new_y * SIZE, new_x * SIZE);
 //                            window.draw(shape);
-//                            //cout << "NEW " << i << ' ' << j << ' ' << new_x << ' ' << new_y << endl;
-//                            moved = 1;
-//                        }
-//                    }
+                            break;
+                        }
+                    }
                     shape.setFillColor(sf::Color::White);
                     shape.setPosition(j*SIZE, i*SIZE);
                     window.draw(shape);
@@ -118,7 +118,7 @@ int main() {
                         if (now_cnt_grass == COUNT_ALL_GRASS) break;
                         int new_x = i + dx[k];
                         int new_y = j + dy[k];
-                        if (new_x < 0 || new_y < 0 || new_x >= ROW || new_y >= COL)
+                        if (new_x < 0 || new_y < 0 || new_x >= ROW || new_y >= COL || field[new_x][new_y].get_type() !="0")
                         {
                             continue;
                         }
