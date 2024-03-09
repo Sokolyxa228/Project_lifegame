@@ -1,10 +1,11 @@
 #include "Obj.h"
-
+#include "Grass.h"
+#include "Sheep.h"
 Obj::Obj(string new_type, int age, int gender)
 {
 	type = new_type;
 	if (type == "sheep") {
-		set_sheep_parametrs(age);
+		set_sheep_parametrs(age,gender);
 	}
 }
 

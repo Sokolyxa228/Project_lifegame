@@ -15,7 +15,8 @@ int main() {
     const int COUNT_ALL_GRASS = 200;
     Obj field[ROW][COL];
     const int GRASS_COUNT = 40;
-    const int SHEEP_COUNT = 20; 
+    const int SHEEP_COUNT_BOYS = 10; //gender=1
+    const int SHEEP_COUNT_GIRLS = 10; //gender=0
     int now_cnt_grass = 0;
     int STEP = 1;//для проверки хода овцы
     for (int i = 0; i < GRASS_COUNT;) {
@@ -25,25 +26,30 @@ int main() {
         if (field[x][y].get_type() == "0") {
             field[x][y] = Obj("grass", mode);
             now_cnt_grass++;
-          //  cout << x << ' ' << y << endl;
             i++;
         }
 
     }
-    for (int i = 0; i < SHEEP_COUNT;) {
+    for (int i = 0; i < SHEEP_COUNT_GIRLS;) {
         int x = rand() % ROW;
         int y = rand() % COL;
         if (field[x][y].get_type() == "0") {
-            field[x][y] = Obj("sheep",0,-1);
+            field[x][y] = Obj("sheep", 0, 0);
             field[x][y].set_sheep_flag(0);
-            //now_cnt_grass++;
-            //  cout << x << ' ' << y << endl;
             i++;
         }
-
+    }
+    for (int i = 0; i < SHEEP_COUNT_BOYS;) {
+        int x = rand() % ROW;
+        int y = rand() % COL;
+        if (field[x][y].get_type() == "0") {
+            field[x][y] = Obj("sheep",0,1);
+            field[x][y].set_sheep_flag(0);
+            i++;
+        }
     }
     sf::RenderWindow window(sf::VideoMode(COL*SIZE, ROW*SIZE), "Life game");
-
+ 
     while (window.isOpen())
     {
 
@@ -55,15 +61,16 @@ int main() {
         }
    
         //cout<<"1"<<"\n";
-        window.clear();
-        bool flag = false;
+        window.clear(sf::Color{ 38, 32, 24 });
+        
         for (int i = 0; i < ROW; ++i) {
             for (int j = 0; j < COL; ++j) {
                 sf::RectangleShape shape(sf::Vector2f(SIZE, SIZE));
-                
+                bool flag = true;
+                int sheep_trap = 0;
                 if (field[i][j].get_type() == "sheep")
                 {
-                    if (field[i][j].check_sheep_life()) {
+                    if (field[i][j].check_sheep_life() || field[i][j].get_satiety() == 0) {
                         field[i][j] = Obj();
                         continue;
                     }
@@ -72,8 +79,11 @@ int main() {
                         
                         continue;
                     }
-                    bool flag = true;
-                    shape.setFillColor(sf::Color::White);
+                    
+                    if (field[i][j].get_sheep_gender())
+                        shape.setFillColor(sf::Color::White);
+                    else
+                        shape.setFillColor(sf::Color{ 209, 23, 178 });
                     while (true)
                     {
                         int new_x = i + dx[rand()%4];
@@ -83,8 +93,14 @@ int main() {
                             continue;
                         }
 
-                        if (field[new_x][new_y].get_type() != "grass" && field[new_x][new_y].get_type() != "sheep" ) {
-                            field[new_x][new_y] = Obj("sheep",field[i][j].get_sheep_age(),-1);
+                        if (field[new_x][new_y].get_type() != "sheep" ) {
+                            bool sheep_eat = false;
+                            if (field[new_x][new_y].get_type() == "grass")
+                                sheep_eat = true;
+                                
+                            field[new_x][new_y] = Obj("sheep",field[i][j].get_sheep_age(),field[i][j].get_sheep_gender());
+                            if (sheep_eat)
+                                field[i][j].sheep_update_satiety();
                             field[new_x][new_y].set_sheep_flag(STEP);
                             shape.setPosition(new_y * SIZE, new_x * SIZE);
                             cout << new_y << ' ' << new_x << ' ' << j << ' ' << i << endl;
@@ -94,6 +110,11 @@ int main() {
                             field[new_x][new_y].sheep_update_life();
                             field[i][j] = Obj();
                             break;
+                        }
+                        sheep_trap++;
+                        if (sheep_trap == 16) {
+                            break;
+
                         }
                     }
                     if (flag) {
