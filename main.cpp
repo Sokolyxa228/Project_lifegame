@@ -60,7 +60,7 @@ int main() {
                 window.close();
         }
    
-        //cout<<"1"<<"\n";
+       // cout<<"1"<<"\n";
         window.clear(sf::Color{ 38, 32, 24 });
         
         for (int i = 0; i < ROW; ++i) {
@@ -104,7 +104,7 @@ int main() {
                                 field[i][j].sheep_update_satiety();
                             field[new_x][new_y].set_sheep_flag(STEP);
                             shape.setPosition(new_y * SIZE, new_x * SIZE);
-                            cout << new_y << ' ' << new_x << ' ' << j << ' ' << i << endl;
+                            //cout << new_y << ' ' << new_x << ' ' << j << ' ' << i << endl;
                             window.draw(shape);
                             flag = false;
 //                            window.draw(shape);
@@ -147,18 +147,23 @@ int main() {
                     shape.setPosition(j*SIZE, i*SIZE);
                     window.draw(shape);
                   
-                    if (field[i][j].get_age() == 0) {
+                   if (field[i][j].get_age() == 0) {
                         field[i][j].update_life();
                         continue;
 
                     }
-                    for (int k = 0; k < 4; k++)
+                    int grass_trap = 0;
+                    while (true)
                     {
+                        if (grass_trap == 10)
+                            break;
+                        
                         if (now_cnt_grass == COUNT_ALL_GRASS) break;
-                        int new_x = i + dx[k];
-                        int new_y = j + dy[k];
+                        int new_x = i + dx[rand() % 4];
+                        int new_y = j + dy[rand() % 4];
                         if (new_x < 0 || new_y < 0 || new_x >= ROW || new_y >= COL || field[new_x][new_y].get_type() !="0")
                         {
+                            grass_trap++;
                             continue;
                         }
                         
@@ -168,8 +173,10 @@ int main() {
                             window.draw(shape);
                             //cout << "NEW " << i << ' ' << j << ' ' << new_x << ' ' << new_y << endl;
                             now_cnt_grass++;
+                            break;
                         }
-                            
+                        grass_trap++;
+
                         
                        // field[new_x][new_y].update_life();
 
@@ -191,7 +198,7 @@ int main() {
 
         
         window.display();
-        sf::sleep(sf::seconds(2));
+        sf::sleep(sf::seconds(0.1));
     }
 
 
