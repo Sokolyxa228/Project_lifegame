@@ -86,6 +86,7 @@ int main() {
                         shape.setFillColor(sf::Color{ 209, 23, 178 });
                     while (true)
                     {
+                        //тут надо менять
                         int new_x = i + dx[rand()%4];
                         int new_y = j + dy[rand()%4];
                         if (new_x < 0 || new_y < 0 || new_x >= ROW || new_y >= COL)
