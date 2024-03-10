@@ -67,7 +67,7 @@ int main() {
             for (int j = 0; j < COL; ++j) {
                 sf::RectangleShape shape(sf::Vector2f(SIZE, SIZE));
                 bool flag = true;
-                int sheep_trap = 0;
+                int sheep_trap = 0, did_not_eat = 0;
                 if (field[i][j].get_type() == "sheep")
                 {
                     if (field[i][j].check_sheep_life() || field[i][j].get_satiety() == 0) {
@@ -76,46 +76,97 @@ int main() {
                     }
                     if (field[i][j].get_sheep_flag()==STEP && field[i][j].get_sheep_age() != 0) {
                         field[i][j].set_sheep_flag(0);
-                        
                         continue;
                     }
-                    
+                    if (field[i][j].get_satiety() > 7)
+                    {
+                        field[i][j].change_in_love(1);
+                    }
                     if (field[i][j].get_sheep_gender())
                         shape.setFillColor(sf::Color::White);
                     else
                         shape.setFillColor(sf::Color{ 209, 23, 178 });
-                    while (true)
+                    if (field[i][j].get_satiety() < 5)
                     {
-                        //тут надо менять
-                        int new_x = i + dx[rand()%4];
-                        int new_y = j + dy[rand()%4];
-                        if (new_x < 0 || new_y < 0 || new_x >= ROW || new_y >= COL)
+                        int check = 0;
+                        while (true)
                         {
-                            continue;
-                        }
-
-                        if (field[new_x][new_y].get_type() != "sheep" ) {
-                            bool sheep_eat = false;
-                            if (field[new_x][new_y].get_type() == "grass")
-                                sheep_eat = true;
-                                
+                            check++;
+                            int new_x = i + dx[rand()%4];
+                            int new_y = j + dy[rand()%4];
+                            if (check == 16)
+                            {
+                                did_not_eat = 1;
+                                break;
+                            }
+                            if (new_x < 0 || new_y < 0 || new_x >= ROW || new_y >= COL || field[new_x][new_y].get_type() != "grass")
+                            {
+                                continue;
+                            }
                             field[new_x][new_y] = Obj("sheep",field[i][j].get_sheep_age(),field[i][j].get_sheep_gender());
-                            if (sheep_eat)
-                                field[i][j].sheep_update_satiety();
+                            field[i][j].sheep_update_satiety();
                             field[new_x][new_y].set_sheep_flag(STEP);
                             shape.setPosition(new_y * SIZE, new_x * SIZE);
                             //cout << new_y << ' ' << new_x << ' ' << j << ' ' << i << endl;
+                            window.draw(shape);
+                            flag = false;
+//                          window.draw(shape);
+                            field[new_x][new_y].sheep_update_life();
+                            field[i][j] = Obj();
+                        }
+                    }
+                    if (field[i][j].ready_for_babes())
+                    {
+                        int check = 0;
+                        while (true)
+                        {
+                            check++;
+                            int new_x = i + dx[rand()%4];
+                            int new_y = j + dy[rand()%4];
+                            if (check == 16)
+                            {
+                                did_not_eat = 1;
+                                break;
+                            }
+                            if (new_x < 0 || new_y < 0 || new_x >= ROW || new_y >= COL || field[new_x][new_y].get_type() != "sheep")
+                            {
+                                continue;
+                            }
+                            field[new_x][new_y] = Obj("sheep",field[i][j].get_sheep_age(),field[i][j].get_sheep_gender());
+                            field[i][j].change_in_love(0);
+                            field[new_x][new_y].set_sheep_flag(STEP);
+                            shape.setPosition(new_y * SIZE, new_x * SIZE);
+                            //cout << new_y << ' ' << new_x << ' ' << j << ' ' << i << endl;
+                            window.draw(shape);
+                            flag = false;
+//                          window.draw(shape);
+                            field[new_x][new_y].sheep_update_life();
+                            field[i][j] = Obj();
+                        }
+                    }
+                    if ( (field[i][j].get_satiety() > 5 && field[i][j].ready_for_babes() == 0) || (did_not_eat)) {
+                        while (true) {
+                            //тут надо менять
+                            int new_x = i + dx[rand() % 4];
+                            int new_y = j + dy[rand() % 4];
+                            sheep_trap++;
+                            if (sheep_trap == 16) {
+                                break;
+
+                            }
+                            if (new_x < 0 || new_y < 0 || new_x >= ROW || new_y >= COL) {
+                                continue;
+                            }
+                            field[new_x][new_y] = Obj("sheep", field[i][j].get_sheep_age(),
+                                                      field[i][j].get_sheep_gender());
+                            field[new_x][new_y].set_sheep_flag(STEP);
+                            shape.setPosition(new_y * SIZE, new_x * SIZE);
                             window.draw(shape);
                             flag = false;
 //                            window.draw(shape);
                             field[new_x][new_y].sheep_update_life();
                             field[i][j] = Obj();
                             break;
-                        }
-                        sheep_trap++;
-                        if (sheep_trap == 16) {
-                            break;
-
                         }
                     }
                     if (flag) {
@@ -198,7 +249,7 @@ int main() {
 
         
         window.display();
-        sf::sleep(sf::seconds(0.1));
+        sf::sleep(sf::seconds(0.5));
     }
 
 

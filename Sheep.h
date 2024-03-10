@@ -9,6 +9,8 @@ public:
     int get_sheep_gender() const { return gender; }
     void set_sheep_parametrs(int age,int gender);
     void set_sheep_flag(int step) { flag = step; }
+    int ready_for_babes(){return in_love;}
+    void change_in_love(int value){in_love = value;}
     int get_sheep_flag() { return flag; }
     int get_satiety() const {return satiety;}
     int get_flag()const {return flag;}
@@ -19,4 +21,5 @@ private:
     int satiety;
     int flag;
     int gender;
+    int in_love;
 };
