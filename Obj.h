@@ -1,6 +1,7 @@
 #pragma once
 #include "Grass.h"
 #include "Sheep.h"
+#include "Wolfs.h"
 class Obj: public Grass, public Sheep
 {
 public:

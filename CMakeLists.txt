@@ -10,7 +10,9 @@ add_executable(Project_lifegame
         Obj.cpp
         Obj.h
         Sheep.h
-        Sheep.cpp)
+        Sheep.cpp
+        Wolfs.h
+        Wolfs.cpp)
 set(SFML_INCLUDE_DIR "/usr/local/include")
 set(SFML_LIBRARY_DIR "/usr/local/lib")
 link_directories(${SFML_LIBRARY_DIR})

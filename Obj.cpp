@@ -7,6 +7,9 @@ Obj::Obj(string new_type, int age, int gender)
 	if (type == "sheep") {
 		set_sheep_parametrs(age,gender);
 	}
+    else if (type == "wolf") {
+        set_sheep_parametrs(age,gender);
+    }
 }
 
 Obj::Obj(string new_type, int view)

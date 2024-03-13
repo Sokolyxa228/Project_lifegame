@@ -77,6 +77,13 @@ build CMakeFiles/Project_lifegame.dir/Sheep.cpp.o: CXX_COMPILER__Project_lifegam
   OBJECT_DIR = CMakeFiles/Project_lifegame.dir
   OBJECT_FILE_DIR = CMakeFiles/Project_lifegame.dir
 
+build CMakeFiles/Project_lifegame.dir/Wolfs.cpp.o: CXX_COMPILER__Project_lifegame_unscanned_Debug /Users/egorbataev/Documents/Project/Project_lifegame/Wolfs.cpp || cmake_object_order_depends_target_Project_lifegame
+  DEP_FILE = CMakeFiles/Project_lifegame.dir/Wolfs.cpp.o.d
+  FLAGS = -g -std=gnu++14 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.2.sdk -fcolor-diagnostics
+  INCLUDES = -I/usr/local/include -isystem /opt/homebrew/include
+  OBJECT_DIR = CMakeFiles/Project_lifegame.dir
+  OBJECT_FILE_DIR = CMakeFiles/Project_lifegame.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Project_lifegame
@@ -85,7 +92,7 @@ build CMakeFiles/Project_lifegame.dir/Sheep.cpp.o: CXX_COMPILER__Project_lifegam
 #############################################
 # Link the executable Project_lifegame
 
-build Project_lifegame: CXX_EXECUTABLE_LINKER__Project_lifegame_Debug CMakeFiles/Project_lifegame.dir/Grass.cpp.o CMakeFiles/Project_lifegame.dir/main.cpp.o CMakeFiles/Project_lifegame.dir/Obj.cpp.o CMakeFiles/Project_lifegame.dir/Sheep.cpp.o | /opt/homebrew/lib/libsfml-graphics.2.6.1.dylib /opt/homebrew/lib/libsfml-window.2.6.1.dylib /opt/homebrew/lib/libsfml-system.2.6.1.dylib
+build Project_lifegame: CXX_EXECUTABLE_LINKER__Project_lifegame_Debug CMakeFiles/Project_lifegame.dir/Grass.cpp.o CMakeFiles/Project_lifegame.dir/main.cpp.o CMakeFiles/Project_lifegame.dir/Obj.cpp.o CMakeFiles/Project_lifegame.dir/Sheep.cpp.o CMakeFiles/Project_lifegame.dir/Wolfs.cpp.o | /opt/homebrew/lib/libsfml-graphics.2.6.1.dylib /opt/homebrew/lib/libsfml-window.2.6.1.dylib /opt/homebrew/lib/libsfml-system.2.6.1.dylib
   FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.2.sdk
   LINK_LIBRARIES = -Wl,-rpath,/opt/homebrew/lib  /opt/homebrew/lib/libsfml-graphics.2.6.1.dylib  /opt/homebrew/lib/libsfml-window.2.6.1.dylib  /opt/homebrew/lib/libsfml-system.2.6.1.dylib
   OBJECT_DIR = CMakeFiles/Project_lifegame.dir
