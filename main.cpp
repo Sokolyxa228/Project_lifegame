@@ -169,6 +169,9 @@ int main() {
                                     else if (field[child_x2][child_y2].get_type() == "0") {
                                         field[child_x2][child_y2] = Obj("sheep", 0, rand() % 2);
                                         field[child_x2][child_y2].set_sheep_flag(0);
+//                                        shape.setFillColor(sf::Color::Blue);
+//                                        shape.setPosition(child_x2 * SIZE, child_y2* SIZE);
+//                                        window.draw(shape);
                                         child_flag = true;
                                         flag = false;
                                         field[i][j].sheep_update_life();
@@ -178,6 +181,9 @@ int main() {
                                 else if (field[child_x1][child_y1].get_type() == "0") {
                                     field[child_x1][child_y1] =  Obj("sheep", 0, rand()%2);
                                     field[child_x1][child_y1].set_sheep_flag(0);
+//                                    shape.setFillColor(sf::Color::Blue);
+//                                    shape.setPosition(child_x1 * SIZE, child_y1* SIZE);
+//                                    window.draw(shape);
                                     child_flag = true;
                                     flag = false;
                                     field[i][j].sheep_update_life();
@@ -263,7 +269,7 @@ int main() {
 
         //cout << STEP << "\n";
         window.display();
-        sf::sleep(sf::seconds(0.1));
+        sf::sleep(sf::seconds(0.5));
     }
 
 
