@@ -8,7 +8,7 @@ Obj::Obj(string new_type, int age, int gender)
 		set_sheep_parametrs(age,gender);
 	}
     else if (type == "wolf") {
-        set_sheep_parametrs(age,gender);
+        set_wolf_parametrs(age,gender);
     }
 }
 

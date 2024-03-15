@@ -2,7 +2,7 @@
 #include "Grass.h"
 #include "Sheep.h"
 #include "Wolfs.h"
-class Obj: public Grass, public Sheep
+class Obj: public Grass, public Sheep, public Wolfs
 {
 public:
 	Obj():type("0"){};
