@@ -7,8 +7,8 @@
 using namespace std;
 const vector<int> dx = {0, 0 , -1, 1};
 const vector<int> dy = {-1, 1 , 0, 0};
-const int ROW = 40;
-const int COL = 60;
+const int ROW =17;
+const int COL = 30;
 
 //проверка на выход за границы массива
 bool check_borders(int x, int y) {
@@ -22,14 +22,14 @@ bool check_borders(int x, int y) {
 
 int main() {
     srand(time(NULL));
-    const int SIZE = 20;
-    const int COUNT_ALL_GRASS = 300;
+    const int SIZE = 50;
+    const int COUNT_ALL_GRASS = 500;
     Obj field[ROW][COL];
-    const int GRASS_COUNT = 100;
-    const int SHEEP_COUNT_BOYS = 80; //gender=1
-    const int SHEEP_COUNT_GIRLS = 80;//gender=0
-    const int WOLF_COUNT_BOYS = 30; //gender=1
-    const int WOLF_COUNT_GIRLS = 30;//gender=0
+    const int GRASS_COUNT = 200;
+    const int SHEEP_COUNT_BOYS = 120; //gender=1
+    const int SHEEP_COUNT_GIRLS = 120;//gender=0
+    const int WOLF_COUNT_BOYS = 10; //gender=1
+    const int WOLF_COUNT_GIRLS = 10;//gender=0
     int now_cnt_grass = 0, now_cnt_sheep = 0;
     int STEP = 1;//для проверки хода овцы
     for (int i = 0; i < GRASS_COUNT;) {
@@ -99,6 +99,8 @@ int main() {
         for (int i = 0; i < ROW; ++i) {
             for (int j = 0; j < COL; ++j) {
                 sf::RectangleShape shape(sf::Vector2f(SIZE, SIZE));
+                sf::Texture image;
+                sf::Sprite sprite;
                 bool flag = true;
                 int sheep_fail = 0;
                 int wolf_fail = 0;
@@ -116,10 +118,10 @@ int main() {
                     }
 
                     if (field[i][j].get_wolf_gender())
-                        shape.setFillColor(sf::Color::Blue);
+                        image.loadFromFile("image\\wolf_male.png");
                     else
-                        shape.setFillColor(sf::Color::Yellow);
-
+                        image.loadFromFile("image\\wolf_female.png");
+                    sprite.setTexture(image);
                     if (!field[i][j].ready_for_babes_wolf()) {
                         target = "sheep";
                     }
@@ -156,8 +158,6 @@ int main() {
                         if (field[new_x][new_y].get_type() != target) {
                             continue;
                         }
-
-
                         if (target == "sheep" || target=="0") {
                             field[new_x][new_y] = Obj("wolf", field[i][j].get_wolf_age(), field[i][j].get_wolf_gender());
                             if (target == "sheep") {
@@ -165,9 +165,8 @@ int main() {
                                 now_cnt_sheep--;
                             }
                             field[new_x][new_y].set_wolf_flag(STEP);
-                            shape.setPosition(new_y * SIZE, new_x * SIZE);
-                            //cout << new_y << ' ' << new_x << ' ' << j << ' ' << i << endl;
-                            window.draw(shape);
+                            sprite.setPosition(j* SIZE, i* SIZE);
+                            window.draw(sprite);
                             flag = false;
                             field[new_x][new_y].wolf_update_life();
                             field[i][j] = Obj();
@@ -192,9 +191,6 @@ int main() {
                                     else if (field[child_x2][child_y2].get_type() == "0") {
                                         field[child_x2][child_y2] = Obj("wolf", 0, rand() % 2);
                                         field[child_x2][child_y2].set_wolf_flag(0);
-//                                        shape.setFillColor(sf::Color::Blue);
-//                                        shape.setPosition(child_x2 * SIZE, child_y2* SIZE);
-//                                        window.draw(shape);
                                         child_flag = true;
                                         flag = false;
                                         field[i][j].wolf_update_life();
@@ -204,9 +200,7 @@ int main() {
                                 else if (field[child_x1][child_y1].get_type() == "0") {
                                     field[child_x1][child_y1] =  Obj("wolf", 0, rand()%2);
                                     field[child_x1][child_y1].set_wolf_flag(0);
-//                                    shape.setFillColor(sf::Color::Blue);
-//                                    shape.setPosition(child_x1 * SIZE, child_y1* SIZE);
-//                                    window.draw(shape);
+
                                     child_flag = true;
                                     flag = false;
                                     field[i][j].wolf_update_life();
@@ -225,8 +219,8 @@ int main() {
 
 
                     if (flag) {
-                        shape.setPosition(j * SIZE, i * SIZE);
-                        window.draw(shape);
+                        sprite.setPosition(j* SIZE, i* SIZE);
+                        window.draw(sprite);
                         field[i][j].wolf_update_life();
 
                     }
@@ -247,9 +241,10 @@ int main() {
                     }
   
                     if (field[i][j].get_sheep_gender())
-                        shape.setFillColor(sf::Color::White);
+                        image.loadFromFile("image\\sheep_male.png");
                     else
-                        shape.setFillColor(sf::Color{ 209, 23, 178 });
+                        image.loadFromFile("image\\sheep_female.png");
+                    sprite.setTexture(image);
 
                     if (!field[i][j].ready_for_babes()) {
                         target = "grass";
@@ -296,9 +291,8 @@ int main() {
                                 now_cnt_grass--;
                             }
                             field[new_x][new_y].set_sheep_flag(STEP);
-                            shape.setPosition(new_y * SIZE, new_x * SIZE);
-                            //cout << new_y << ' ' << new_x << ' ' << j << ' ' << i << endl;
-                            window.draw(shape);
+                            sprite.setPosition(j* SIZE, i* SIZE);
+                            window.draw(sprite);
                             flag = false;
                             field[new_x][new_y].sheep_update_life();
                             field[i][j] = Obj();
@@ -356,8 +350,8 @@ int main() {
 
  
                     if (flag) {
-                        shape.setPosition(j * SIZE, i * SIZE);
-                        window.draw(shape);
+                        sprite.setPosition(j* SIZE, i* SIZE);
+                        window.draw(sprite);
                         field[i][j].sheep_update_life();
                         
                     }
@@ -374,16 +368,21 @@ int main() {
                     }
 
                     if (field[i][j].get_kind()) {
-                        shape.setFillColor(sf::Color::Red);
+                        image.loadFromFile("image\\grass_red.png");
                     }
                     else {
-                        shape.setFillColor(sf::Color::Green);
+                        image.loadFromFile("image\\grass.png");
                     }
 
 
-                    shape.setPosition(j*SIZE, i*SIZE);
-                    window.draw(shape);
-                  
+                    //shape.setPosition(j*SIZE, i*SIZE);
+                    //window.draw(shape);
+                                    
+                                    
+                   
+                   sprite.setTexture(image);
+                   sprite.setPosition(j* SIZE, i* SIZE);
+                   window.draw(sprite);
                    if (field[i][j].get_age() == 0) {
                         field[i][j].update_life();
                         continue;
@@ -407,8 +406,8 @@ int main() {
                         
                         if (field[new_x][new_y].get_type() != "grass") {
                             field[new_x][new_y] = Obj("grass", field[i][j].get_kind());
-                            shape.setPosition(new_y * SIZE, new_x * SIZE);
-                            window.draw(shape);
+                            sprite.setPosition(j* SIZE, i* SIZE);
+                            window.draw(sprite);
                             //cout << "NEW " << i << ' ' << j << ' ' << new_x << ' ' << new_y << endl;
                             now_cnt_grass++;
                             
@@ -423,7 +422,7 @@ int main() {
 
         //cout << STEP << "\n";
         window.display();
-        sf::sleep(sf::seconds(0.5));
+        sf::sleep(sf::seconds(1));
     }
 
 
