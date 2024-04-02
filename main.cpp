@@ -8,7 +8,7 @@ using namespace std;
 const vector<int> dx = {0, 0 , -1, 1};
 const vector<int> dy = {-1, 1 , 0, 0};
 const int ROW =17;
-const int COL = 30;
+const int COL = 31;
 
 //проверка на выход за границы массива
 bool check_borders(int x, int y) {
@@ -26,10 +26,10 @@ int main() {
     const int COUNT_ALL_GRASS = 500;
     Obj field[ROW][COL];
     const int GRASS_COUNT = 200;
-    const int SHEEP_COUNT_BOYS = 120; //gender=1
-    const int SHEEP_COUNT_GIRLS = 120;//gender=0
-    const int WOLF_COUNT_BOYS = 10; //gender=1
-    const int WOLF_COUNT_GIRLS = 10;//gender=0
+    const int SHEEP_COUNT_BOYS = 70; //gender=1
+    const int SHEEP_COUNT_GIRLS = 70;//gender=0
+    const int WOLF_COUNT_BOYS = 15; //gender=1
+    const int WOLF_COUNT_GIRLS = 25;//gender=0
     int now_cnt_grass = 0, now_cnt_sheep = 0;
     int STEP = 1;//для проверки хода овцы
     for (int i = 0; i < GRASS_COUNT;) {

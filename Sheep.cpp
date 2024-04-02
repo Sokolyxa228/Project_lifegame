@@ -15,7 +15,9 @@ void Sheep::sheep_update_life()
 
 void Sheep::sheep_update_satiety(int parametr)
 {
-    if (parametr) satiety--;
+	if (parametr) {
+		satiety += 5;
+	}
     else satiety++;
 }
 
