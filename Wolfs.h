@@ -19,5 +19,6 @@ private:
     int satiety;
     int flag;
     int gender;
+    static int wolfs_count;
 
 };

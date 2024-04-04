@@ -11,25 +11,32 @@ const int ROW =17;
 const int COL = 31;
 
 //проверка на выход за границы массива
-bool check_borders(int x, int y) {
-    if (x < 0 || y < 0 || x >= ROW || y >= COL)
-    {
-        return true;
+void check_borders(int & new_x, int & new_y) {
+    if (new_x < 0) {
+        new_x = ROW + new_x;
     }
-    return false;
+    else if (new_x >= ROW) {
+        new_x = new_x - ROW;
+    }
+    if (new_y < 0) {
+        new_y = COL + new_y;
+    }
+    else if (new_y >= COL) {
+        new_x = new_y - COL;
+    }
 }
 
 
 int main() {
     srand(time(NULL));
     const int SIZE = 50;
-    const int COUNT_ALL_GRASS = 500;
+    const int COUNT_ALL_GRASS = 300;
     Obj field[ROW][COL];
-    const int GRASS_COUNT = 200;
-    const int SHEEP_COUNT_BOYS = 40; //gender=1
-    const int SHEEP_COUNT_GIRLS = 40;//gender=0
-    const int WOLF_COUNT_BOYS = 30; //gender=1
-    const int WOLF_COUNT_GIRLS = 30;//gender=0
+    const int GRASS_COUNT = 150;
+    const int SHEEP_COUNT_BOYS = 120; //gender=1
+    const int SHEEP_COUNT_GIRLS = 120;//gender=0
+    const int WOLF_COUNT_BOYS = 5; //gender=1
+    const int WOLF_COUNT_GIRLS = 5;//gender=0
     int now_cnt_grass = GRASS_COUNT;
     int now_cnt_sheep = SHEEP_COUNT_BOYS+SHEEP_COUNT_GIRLS;
     int now_cnt_wolfs = WOLF_COUNT_BOYS+WOLF_COUNT_GIRLS;
@@ -41,7 +48,6 @@ int main() {
         int mode = rand() % 2;
         if (field[x][y].get_type() == "0") {
             field[x][y] = Obj("grass", mode);
-            now_cnt_grass++;
             i++;
         }
 
@@ -52,7 +58,6 @@ int main() {
         if (field[x][y].get_type() == "0") {
             field[x][y] = Obj("sheep", 0, 0);
             field[x][y].set_sheep_flag(0);
-            now_cnt_sheep++;
             i++;
         }
     }
@@ -62,7 +67,6 @@ int main() {
         if (field[x][y].get_type() == "0") {
             field[x][y] = Obj("sheep",0,1);
             field[x][y].set_sheep_flag(0);
-            now_cnt_sheep++;
             i++;
         }
     }
@@ -111,6 +115,20 @@ int main() {
                 int sheep_fail = 0;
                 int wolf_fail = 0;
                 string target = "";
+                if (field[i][j].get_type() == "0") {
+                    int mode = rand() % 2;
+                    field[i][j] = Obj("grass", mode);
+                    if (mode) {
+                        image.loadFromFile("image\\grass_red.png");
+                    }
+                    else {
+                        image.loadFromFile("image\\grass.png");
+                    }
+                    sprite.setTexture(image);
+                    sprite.setPosition(j * SIZE, i * SIZE);
+                    window.draw(sprite);
+
+                }
                 if (field[i][j].get_type() == "wolf")
                 {
                     //cout << field[i][j].get_satiety() << endl;
@@ -158,10 +176,8 @@ int main() {
                                 break;
                             }
                         }
-                        if (check_borders(new_x,new_y))
-                        {
-                            continue;
-                        }
+                        check_borders(new_x, new_y);
+                        
                         if (field[new_x][new_y].get_type() != target) {
                             continue;
                         }
@@ -190,21 +206,19 @@ int main() {
                                 int child_y1 = j + dy[k];
                                 int child_x2 = i + dx[k];
                                 int child_y2 = j + dy[k];
-                                if (check_borders(child_x1,child_y1))
-                                {
-                                    if (check_borders(child_x2, child_y2)) {
-                                        continue;
-                                    }
-                                    else if (field[child_x2][child_y2].get_type() == "0") {
-                                        field[child_x2][child_y2] = Obj("wolf", 0, rand() % 2);
-                                        field[child_x2][child_y2].set_wolf_flag(0);
-                                        child_flag = true;
-                                        now_cnt_wolfs++;
-                                        flag = false;
-                                        field[i][j].wolf_update_life();
-                                        break;
-                                    }
+                                check_borders(child_x1, child_y1);
+                                check_borders(child_x2, child_y2);
+
+                                if (field[child_x2][child_y2].get_type() == "0") {
+                                    field[child_x2][child_y2] = Obj("wolf", 0, rand() % 2);
+                                    field[child_x2][child_y2].set_wolf_flag(0);
+                                    child_flag = true;
+                                    now_cnt_wolfs++;
+                                    flag = false;
+                                    field[i][j].wolf_update_life();
+                                    break;
                                 }
+                                
                                 else if (field[child_x1][child_y1].get_type() == "0") {
                                     field[child_x1][child_y1] =  Obj("wolf", 0, rand()%2);
                                     field[child_x1][child_y1].set_wolf_flag(0);
@@ -236,7 +250,7 @@ int main() {
 
 
                 }
-                if (field[i][j].get_type() == "sheep")
+                else if (field[i][j].get_type() == "sheep")
                 {
                     //cout << field[i][j].get_satiety() << endl;
                     if (field[i][j].check_sheep_life() || field[i][j].get_satiety() == 0) {
@@ -284,10 +298,7 @@ int main() {
                                 break;
                             }                                                       
                         }
-                        if (check_borders(new_x,new_y))
-                        {
-                            continue;
-                        }
+                        check_borders(new_x, new_y);
                         if (field[new_x][new_y].get_type() != target) {
                             continue;
                         }
@@ -318,22 +329,20 @@ int main() {
                                 int child_y1 = j + dy[k];
                                 int child_x2 = i + dx[k];
                                 int child_y2 = j + dy[k];
-                                if (check_borders(child_x1,child_y1))
-                                {
-                                    if (check_borders(child_x2, child_y2)) {
-                                        continue;
-                                    }
-                                    else if (field[child_x2][child_y2].get_type() == "0") {
-                                        field[child_x2][child_y2] = Obj("sheep", 0, rand() % 2);
-                                        field[child_x2][child_y2].set_sheep_flag(0);
-                                        now_cnt_sheep++;
-                                        child_flag = true;
-                                        flag = false;
-                                        field[i][j].sheep_update_life();
-                                        break;
-                                    }
+                                check_borders(child_x1, child_y1);
+                                check_borders(child_x2, child_y2);
+
+                                if (field[child_x2][child_y2].get_type() == "0") {
+                                    field[child_x2][child_y2] = Obj("sheep", 0, rand() % 2);
+                                    field[child_x2][child_y2].set_sheep_flag(0);
+                                    now_cnt_sheep++;
+                                    child_flag = true;
+                                    flag = false;
+                                    field[i][j].sheep_update_life();
+                                    break;
                                 }
-                                else if (field[child_x1][child_y1].get_type() == "0") {
+                            
+                                if (field[child_x1][child_y1].get_type() == "0") {
                                     field[child_x1][child_y1] =  Obj("sheep", 0, rand()%2);
                                     field[child_x1][child_y1].set_sheep_flag(0);
                                     now_cnt_sheep++;
@@ -364,7 +373,7 @@ int main() {
 
                     
                 }
-                if (field[i][j].get_type() == "grass") {
+                else if (field[i][j].get_type() == "grass") {
 
                     if (field[i][j].check_life()) {
                         field[i][j] = Obj();
@@ -377,7 +386,7 @@ int main() {
                     }
                     else {
                         image.loadFromFile("image\\grass.png");
-                    }                                                                                        
+                   }                                                                                        
                    sprite.setTexture(image);
                    sprite.setPosition(j* SIZE, i* SIZE);
                    window.draw(sprite);
@@ -393,10 +402,11 @@ int main() {
                         if (grass_trap == 16)
                             break;
                         
-                       // if (now_cnt_grass == COUNT_ALL_GRASS) break;
+                        if (now_cnt_grass == COUNT_ALL_GRASS) break;
                         int new_x = i + dx[rand() % 4];
                         int new_y = j + dy[rand() % 4];
-                        if (check_borders(new_x,new_y) || field[new_x][new_y].get_type() != "0")
+                        check_borders(new_x, new_y);
+                        if (field[new_x][new_y].get_type() != "0")
                         {
                             grass_trap++;
                             continue;
@@ -408,7 +418,6 @@ int main() {
                             now_cnt_grass++;
                             window.draw(sprite);
                             //cout << "NEW " << i << ' ' << j << ' ' << new_x << ' ' << new_y << endl;
-                            now_cnt_grass++;
                             
                         }
                         grass_trap++;
