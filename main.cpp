@@ -32,7 +32,6 @@ int main() {
     std::ofstream fout;          // поток для записи
     fout.open("C:\\Users\\amenk\\CLionProjects\\Project_lifegame\\out.txt");      // открываем файл для записи
 
-
     srand(time(NULL));
     const int SIZE = 50;
     const int COUNT_ALL_GRASS = 100;
@@ -449,7 +448,7 @@ int main() {
 
         //cout << STEP << "\n";
         window.display();
-        sf::sleep(sf::seconds(0.1));
+        sf::sleep(sf::seconds(1));
     }
 
     fout <<"New values: \n";
