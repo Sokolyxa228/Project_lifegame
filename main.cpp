@@ -26,11 +26,14 @@ int main() {
     const int COUNT_ALL_GRASS = 500;
     Obj field[ROW][COL];
     const int GRASS_COUNT = 200;
-    const int SHEEP_COUNT_BOYS = 70; //gender=1
-    const int SHEEP_COUNT_GIRLS = 70;//gender=0
-    const int WOLF_COUNT_BOYS = 15; //gender=1
-    const int WOLF_COUNT_GIRLS = 25;//gender=0
-    int now_cnt_grass = 0, now_cnt_sheep = 0;
+    const int SHEEP_COUNT_BOYS = 40; //gender=1
+    const int SHEEP_COUNT_GIRLS = 40;//gender=0
+    const int WOLF_COUNT_BOYS = 30; //gender=1
+    const int WOLF_COUNT_GIRLS = 30;//gender=0
+    int now_cnt_grass = GRASS_COUNT;
+    int now_cnt_sheep = SHEEP_COUNT_BOYS+SHEEP_COUNT_GIRLS;
+    int now_cnt_wolfs = WOLF_COUNT_BOYS+WOLF_COUNT_GIRLS;
+
     int STEP = 1;//для проверки хода овцы
     for (int i = 0; i < GRASS_COUNT;) {
         int x = rand() % ROW;
@@ -95,7 +98,10 @@ int main() {
    
         
         window.clear(sf::Color{ 38, 32, 24 });
-        
+        cout << "Grass: " << now_cnt_grass << '\n';
+        cout << "Sheep: " << now_cnt_sheep << '\n';
+        cout << "Wolf: " << now_cnt_wolfs << '\n';
+        cout << "STEP: " << STEP << '\n';
         for (int i = 0; i < ROW; ++i) {
             for (int j = 0; j < COL; ++j) {
                 sf::RectangleShape shape(sf::Vector2f(SIZE, SIZE));
@@ -110,6 +116,7 @@ int main() {
                     //cout << field[i][j].get_satiety() << endl;
                     if (field[i][j].check_wolf_life() || field[i][j].get_satiety_wolf() == 0) {
                         field[i][j] = Obj();
+                        now_cnt_wolfs--;
                         continue;
                     }
                     if (field[i][j].get_wolf_flag()==STEP && field[i][j].get_wolf_age() != 0) {
@@ -192,6 +199,7 @@ int main() {
                                         field[child_x2][child_y2] = Obj("wolf", 0, rand() % 2);
                                         field[child_x2][child_y2].set_wolf_flag(0);
                                         child_flag = true;
+                                        now_cnt_wolfs++;
                                         flag = false;
                                         field[i][j].wolf_update_life();
                                         break;
@@ -200,7 +208,7 @@ int main() {
                                 else if (field[child_x1][child_y1].get_type() == "0") {
                                     field[child_x1][child_y1] =  Obj("wolf", 0, rand()%2);
                                     field[child_x1][child_y1].set_wolf_flag(0);
-
+                                    now_cnt_wolfs++;
                                     child_flag = true;
                                     flag = false;
                                     field[i][j].wolf_update_life();
@@ -233,6 +241,7 @@ int main() {
                     //cout << field[i][j].get_satiety() << endl;
                     if (field[i][j].check_sheep_life() || field[i][j].get_satiety() == 0) {
                         field[i][j] = Obj();
+                        now_cnt_sheep--;
                         continue;
                     }
                     if (field[i][j].get_sheep_flag()==STEP && field[i][j].get_sheep_age() != 0) {
@@ -317,9 +326,7 @@ int main() {
                                     else if (field[child_x2][child_y2].get_type() == "0") {
                                         field[child_x2][child_y2] = Obj("sheep", 0, rand() % 2);
                                         field[child_x2][child_y2].set_sheep_flag(0);
-//                                        shape.setFillColor(sf::Color::Blue);
-//                                        shape.setPosition(child_x2 * SIZE, child_y2* SIZE);
-//                                        window.draw(shape);
+                                        now_cnt_sheep++;
                                         child_flag = true;
                                         flag = false;
                                         field[i][j].sheep_update_life();
@@ -329,9 +336,7 @@ int main() {
                                 else if (field[child_x1][child_y1].get_type() == "0") {
                                     field[child_x1][child_y1] =  Obj("sheep", 0, rand()%2);
                                     field[child_x1][child_y1].set_sheep_flag(0);
-//                                    shape.setFillColor(sf::Color::Blue);
-//                                    shape.setPosition(child_x1 * SIZE, child_y1* SIZE);
-//                                    window.draw(shape);
+                                    now_cnt_sheep++;
                                     child_flag = true;
                                     flag = false;
                                     field[i][j].sheep_update_life();
@@ -372,14 +377,7 @@ int main() {
                     }
                     else {
                         image.loadFromFile("image\\grass.png");
-                    }
-
-
-                    //shape.setPosition(j*SIZE, i*SIZE);
-                    //window.draw(shape);
-                                    
-                                    
-                   
+                    }                                                                                        
                    sprite.setTexture(image);
                    sprite.setPosition(j* SIZE, i* SIZE);
                    window.draw(sprite);
@@ -395,7 +393,7 @@ int main() {
                         if (grass_trap == 16)
                             break;
                         
-                        if (now_cnt_grass == COUNT_ALL_GRASS) break;
+                       // if (now_cnt_grass == COUNT_ALL_GRASS) break;
                         int new_x = i + dx[rand() % 4];
                         int new_y = j + dy[rand() % 4];
                         if (check_borders(new_x,new_y) || field[new_x][new_y].get_type() != "0")
@@ -407,6 +405,7 @@ int main() {
                         if (field[new_x][new_y].get_type() != "grass") {
                             field[new_x][new_y] = Obj("grass", field[i][j].get_kind());
                             sprite.setPosition(j* SIZE, i* SIZE);
+                            now_cnt_grass++;
                             window.draw(sprite);
                             //cout << "NEW " << i << ' ' << j << ' ' << new_x << ' ' << new_y << endl;
                             now_cnt_grass++;
@@ -422,7 +421,7 @@ int main() {
 
         //cout << STEP << "\n";
         window.display();
-        sf::sleep(sf::seconds(1));
+        sf::sleep(sf::seconds(0.1));
     }
 
 
