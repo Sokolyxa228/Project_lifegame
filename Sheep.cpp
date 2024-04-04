@@ -18,7 +18,7 @@ void Sheep::sheep_update_satiety(int parametr)
 	if (parametr) {
 		satiety += 5;
 	}
-    else satiety++;
+    else satiety+=2;
 }
 
 
