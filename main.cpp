@@ -33,17 +33,15 @@ int main() {
     fout.open("C:\\Users\\amenk\\CLionProjects\\Project_lifegame\\out.txt");      // открываем файл для записи
 
 
-
-
     srand(time(NULL));
     const int SIZE = 50;
     const int COUNT_ALL_GRASS = 100;
     Obj field[ROW][COL];
-    const int GRASS_COUNT = 20;
-    const int SHEEP_COUNT_BOYS = 60; //gender=1
-    const int SHEEP_COUNT_GIRLS = 60;//gender=0
-    const int WOLF_COUNT_BOYS = 9; //gender=1
-    const int WOLF_COUNT_GIRLS = 9;//gender=0
+    const int GRASS_COUNT = 40;
+    const int SHEEP_COUNT_BOYS = 70; //gender=1
+    const int SHEEP_COUNT_GIRLS = 70;//gender=0
+    const int WOLF_COUNT_BOYS = 5; //gender=1
+    const int WOLF_COUNT_GIRLS = 5;//gender=0
     int now_cnt_grass = GRASS_COUNT;
     int now_cnt_sheep = SHEEP_COUNT_BOYS+SHEEP_COUNT_GIRLS;
     int now_cnt_wolfs = WOLF_COUNT_BOYS+WOLF_COUNT_GIRLS;
