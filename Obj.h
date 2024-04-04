@@ -8,7 +8,7 @@ public:
 	Obj():type("0"){};
 	Obj(string new_type,int age,int gender);
 	Obj(string new_type, int view);
-	string get_type() { return type; }
+	string get_type() const { return type; }
 	void print_info() const;
 private:
 	string type;
