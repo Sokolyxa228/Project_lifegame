@@ -46,6 +46,7 @@ int main() {
     int now_cnt_wolfs = WOLF_COUNT_BOYS+WOLF_COUNT_GIRLS;
 
 
+
     int STEP = 1;//для проверки хода овцы
 
     if (fout.is_open()) {
@@ -132,20 +133,21 @@ int main() {
                 int sheep_fail = 0;
                 int wolf_fail = 0;
                 string target = "";
-                /* if (field[i][j].get_type() == "0") {
+                 if (field[i][j].get_type() == "0") {
                      int mode = rand() % 2;
                      field[i][j] = Obj("grass", mode);
                      if (mode) {
-                         image.loadFromFile("image\\grass_red.png");
+                         image.loadFromFile("C:\\Users\\amenk\\CLionProjects\\Project_lifegame\\image\\grass_red.png");
                      }
                      else {
-                         image.loadFromFile("image\\grass.png");
+                         image.loadFromFile("C:\\Users\\amenk\\CLionProjects\\Project_lifegame\\image\\grass.png");
                      }
+                     now_cnt_grass++;
                      sprite.setTexture(image);
                      sprite.setPosition(j * SIZE, i * SIZE);
                      window.draw(sprite);
 
-                 } */
+                 }
                 if (field[i][j].get_type() == "wolf")
                 {
                     //cout << field[i][j].get_satiety() << endl;
@@ -452,6 +454,7 @@ int main() {
     }
 
     fout <<"New values: \n";
+    fout << "Step: " << STEP << '\n';
     fout << "Grass: " << now_cnt_grass << '\n';
     fout << "Sheep: " << now_cnt_sheep << '\n';
     fout << "Wolf: " << now_cnt_wolfs << '\n';

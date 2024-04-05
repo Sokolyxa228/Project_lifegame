@@ -6,6 +6,7 @@ SHEEP_COUNT_GIRLS = 70
 WOLF_COUNT_BOYS = 5
 WOLF_COUNT_GIRLS = 5
 New values: 
-Grass: 100
-Sheep: 0
-Wolf: 0
+Step: 64
+Grass: 119
+Sheep: 285
+Wolf: 35
