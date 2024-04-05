@@ -13,13 +13,13 @@ add_executable(Project_lifegame
         Sheep.cpp
         Wolfs.h
         Wolfs.cpp)
-set(SFML_INCLUDE_DIR "/usr/local/include")
-set(SFML_LIBRARY_DIR "/usr/local/lib")
-link_directories(${SFML_LIBRARY_DIR})
-include_directories(${SFML_INCLUDE_DIR})
 
-find_package(SFML 2.6.1 COMPONENTS graphics window system REQUIRED)
+include(FetchContent)
+set(BUILD_SHARED_LIBS OFF)
+FETCHCONTENT_DECLARE(SFML GIT_REPOSITORY https://github.com/SFML/SFML.git GIT_TAG 2.6.1)
+FETCHCONTENT_MAKEAVAILABLE(SFML)
 
-if(SFML_FOUND)
-    target_link_libraries(Project_lifegame sfml-graphics sfml-window sfml-system)
-endif()
+
+
+target_link_libraries(Project_lifegame sfml-graphics)
+
